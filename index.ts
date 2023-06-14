@@ -52,6 +52,7 @@ bot.on("message:text", async (ctx) => {
 const handleUpdate = webhookCallback(bot, "std/http");
 
 serve(async (req) => {
+    console.log(req)
   if (req.method === "POST") {
     const url = new URL(req.url);
     if (url.pathname.slice(1) === bot.token) {
