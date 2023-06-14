@@ -26,7 +26,7 @@ bot.on('message', async (ctx) => {
     });
     return ctx.reply(chat_completion.data.choices[0].text);
   } catch (error) {
-    console.error(JSON.stringify(error, null, 2))
+    console.error(JSON.stringify(error, null, 2));
     return ctx.reply(error.message);
   }
 });
