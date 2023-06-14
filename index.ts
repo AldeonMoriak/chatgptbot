@@ -13,7 +13,7 @@ import {
   ParseModeFlavor
 } from "https://deno.land/x/grammy_parse_mode@1.5.0/mod.ts";
 
-import { OpenAI } from "https://deno.land/x/openai/mod.ts";
+import { OpenAI } from "https://deno.land/x/openai@1.4.0/mod.ts";
 
 const openai = new OpenAI(Deno.env.get("OPENAI_API_KEY")!);
 
@@ -52,13 +52,15 @@ bot.on("message:text", async (ctx) => {
 const handleUpdate = webhookCallback(bot, "std/http");
 
 serve(async (req) => {
-  try {
-    //     const url = new URL(req.url);
-    //     if (url.searchParams.get('secret') !== Deno.env.get('FUNCTION_SECRET'))
-    //       return new Response('not allowed', { status: 405 })
-
-    return await handleUpdate(req);
-  } catch (err) {
-    console.error(err);
+  if (req.method === "POST") {
+    const url = new URL(req.url);
+    if (url.pathname.slice(1) === bot.token) {
+      try {
+        return await handleUpdate(req);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
+  return new Response();
 });
