@@ -1,25 +1,17 @@
-import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.191.0/http/server.ts";
 
 console.log(`Function "telegram-bot" up and running!`);
 
 import {
   Bot,
   webhookCallback,
-  Context,
-} from "https://deno.land/x/grammy@v1.14.1/mod.ts";
-import {
-  hydrateReply,
-  parseMode,
-  ParseModeFlavor
-} from "https://deno.land/x/grammy_parse_mode@1.5.0/mod.ts";
+} from "https://deno.land/x/grammy@v1.16.2/mod.ts";
 
 import { OpenAI } from "https://deno.land/x/openai@1.4.0/mod.ts";
 
 const openai = new OpenAI(Deno.env.get("OPENAI_API_KEY")!);
 
-const bot = new Bot<ParseModeFlavor<Context>>(Deno.env.get("TELEGRAM_KEY") || "");
-bot.use(hydrateReply);
-bot.api.config.use(parseMode("MarkdownV2"));
+const bot = new Bot(Deno.env.get("TELEGRAM_KEY") || "");
 
 bot.command("start", (ctx) =>
   ctx.reply(
