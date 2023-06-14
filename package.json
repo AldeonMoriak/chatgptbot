@@ -2,7 +2,7 @@
   "name": "chatgpt",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node api/index.js"
@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.1.4",
-    "express": "^4.18.2",
     "grammy": "^1.16.2",
     "openai": "^3.3.0"
   }

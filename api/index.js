@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Bot } = require('grammy');
+const { Bot, webhookCallback } = require('grammy');
 const { Configuration, OpenAIApi } = require('openai');
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -32,3 +32,5 @@ bot.on('message', async (ctx) => {
 });
 
 bot.start();
+
+export default webhookCallback(bot, "http");
