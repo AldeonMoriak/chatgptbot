@@ -26,7 +26,7 @@ bot.on('message:text', async (ctx) => {
   }
   try {
     const chat_completion = await openai.createCompletion({
-      model: 'text-davinci-003',
+      model: 'gpt-3.5-turbo-0613',
       prompt: ctx.message.text!,
       temperature: 0.6,
     });
