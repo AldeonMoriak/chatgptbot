@@ -1,28 +1,24 @@
-import { serve } from "https://deno.land/std@0.191.0/http/server.ts";
+import { serve } from 'https://deno.land/std@0.191.0/http/server.ts';
 
 console.log(`Function "telegram-bot" up and running!`);
 
 import {
   Bot,
   webhookCallback,
-} from "https://deno.land/x/grammy@v1.16.2/mod.ts";
+} from 'https://deno.land/x/grammy@v1.16.2/mod.ts';
 
-import { OpenAI } from "https://deno.land/x/openai@1.4.0/mod.ts";
+import { OpenAI } from 'https://deno.land/x/openai@1.4.0/mod.ts';
 
-const openai = new OpenAI(Deno.env.get("OPENAI_API_KEY")!);
+const openai = new OpenAI(Deno.env.get('OPENAI_API_KEY')!);
 
-const bot = new Bot(Deno.env.get("TELEGRAM_KEY") || "");
+const bot = new Bot(Deno.env.get('TELEGRAM_KEY') || '');
 
-bot.command("start", (ctx) =>
-  ctx.reply(
-    "Hello. Ask me something"
-  )
-);
+bot.command('start', (ctx) => ctx.reply('Hello. Ask me something'));
 
-bot.on("message:text", async (ctx) => {
-    const user = await ctx.getAuthor();
+bot.on('message:text', async (ctx) => {
+  const user = await ctx.getAuthor();
   if (
-    ![Deno.env.get("USER1"), Deno.env.get("USER2")].includes(
+    ![Deno.env.get('USER1'), Deno.env.get('USER2')].includes(
       user.user.username!.toLowerCase()
     )
   ) {
@@ -41,19 +37,19 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
-const handleUpdate = webhookCallback(bot, "std/http");
+const handleUpdate = webhookCallback(bot, 'std/http');
 
 serve(async (req) => {
-  if (req.method === "POST") {
-    const url = new URL(req.url);
-    console.log(url)
-    if (url.pathname.slice(1) === bot.token) {
-      try {
-        return await handleUpdate(req);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+  if (req.method === 'POST') {
+    return await handleUpdate(req);
+    // const url = new URL(req.url);
+    // console.log(url)
+    // if (url.pathname.slice(1) === bot.token) {
+    //   try {
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // }
   }
   return new Response();
 });
